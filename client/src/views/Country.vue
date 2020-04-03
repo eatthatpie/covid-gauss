@@ -1,6 +1,6 @@
 <template>
   <div class="__page">
-    Home.
+    Country.
   </div>
 </template>
 
