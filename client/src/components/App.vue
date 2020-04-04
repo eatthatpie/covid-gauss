@@ -1,10 +1,10 @@
 <template>
-  <div class="__root">
-    <Toolbar />
-    <Transition name="activity">
-      <RouterView />
+  <div class="__root p-20">
+    <Toolbar class="mb-40" />
+    <Transition mode="out-in" name="activity">
+      <RouterView :key="$route.fullPath" />
     </Transition>
-    <Footer />
+    <Footer class="mt-20" />
   </div>
 </template>
 

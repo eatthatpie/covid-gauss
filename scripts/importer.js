@@ -19,7 +19,7 @@ function createMappedData(raw, fieldName) {
     const [provinceName, countryName, lat, lng, ...values] = row;
 
     const countryFullName = (countryName + ' ' + provinceName).trim();
-    const slug = slugify(countryFullName, { lower: true });
+    const slug = slugify(countryFullName, { lower: true, remove: /[*+~.()'"!:@]/g });
 
     countries[countryFullName] = {
       name: countryName,

@@ -35,6 +35,7 @@ const gqlSchema = `
 
   type Report {
     daily: [DailyReport]
+    country: Country
     estimation: Estimation
     recent_total_infected: Int
   }

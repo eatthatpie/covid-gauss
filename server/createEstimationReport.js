@@ -1,6 +1,10 @@
 const gaussFit = require('./gaussFit');
 
-async function createEstimationReport(dailyReports) {
+async function createEstimationReport(dailyReports, ignoreDataAfterAprilFirst2020) {
+  if (ignoreDataAfterAprilFirst2020) {
+    dailyReports.length = 71;
+  }
+  
   let lastDoubleZeroIndex = 0;
 
   dailyReports.forEach(function(item, i) {
@@ -54,7 +58,7 @@ async function createEstimationReport(dailyReports) {
     valuableData.push({
       estimated_new_infected: curr,
       estimated_total_infected: totalInfected,
-      date: `${d.getUTCFullYear()}-0${d.getMonth() + 1}-${d.getDate() > 9 ? d.getDate() : '0' + d.getDate()}`
+      date: `${d.getUTCFullYear()}-${d.getMonth() > 8 ? d.getMonth() + 1 : '0' + (d.getMonth() + 1)}-${d.getDate() > 9 ? d.getDate() : '0' + d.getDate()}`
     });
 
     i++;

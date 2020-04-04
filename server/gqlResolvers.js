@@ -38,12 +38,21 @@ const gqlResolvers = {
   },
   report: async function({ country_slug, date }) {
     const match = await DailyReport.find({ country_slug }).lean().exec();
+    const country = await Country.findOne({ slug: country_slug });
 
     if (!match || !match.length) {
       return null;
     }
 
-    const report = await createEstimationReport(match);
+    if (!country) {
+      return null;
+    }
+
+    const ignoreDataAfterAprilFirstForSlugs = ['poland'];
+    const report = await createEstimationReport(
+      match,
+      ignoreDataAfterAprilFirstForSlugs.indexOf(country_slug) > -1
+    );
 
     if (!report) {
       return null;
@@ -51,6 +60,7 @@ const gqlResolvers = {
 
     return {
       daily: report.daily,
+      country: country,
       estimation: {
         curve: report.estimation.curve,
         curve_params: report.estimation.curve_params,
