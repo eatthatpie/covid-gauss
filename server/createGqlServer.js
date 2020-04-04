@@ -7,7 +7,7 @@ var { buildSchema } = require('graphql');
 var schema = buildSchema(gqlSchema);
 
 function createGqlServer(app) {
-  app.use(cors());
+  app.use(cors({ origin: 'https://covid-gauss.site' }));
   app.use(graphqlHTTP({
     schema,
     rootValue: gqlResolvers,
