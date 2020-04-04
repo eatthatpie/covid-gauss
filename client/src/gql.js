@@ -1,6 +1,6 @@
 function makeQuery(query, variables) {
   return (
-    fetch('http://localhost:5000/', {
+    fetch('https://datapi.covid-gauss.site/gql/', {
         method: 'POST',
         body: JSON.stringify({ query, variables }),
         headers: {
