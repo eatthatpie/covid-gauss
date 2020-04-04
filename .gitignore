@@ -1,2 +1,3 @@
 node_modules
 dev.html
+server/env.js

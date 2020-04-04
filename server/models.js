@@ -1,5 +1,13 @@
+const env = require('./env');
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://127.0.0.1:27017/covid_gauss_test', { useNewUrlParser: true, useUnifiedTopology: true });
+
+mongoose.connect(
+  'mongodb://' + env.mongo.host + '/' + env.mongo.dbname,
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  }
+);
 
 const Country = new mongoose.model('Country', new mongoose.Schema({
   name: String,
