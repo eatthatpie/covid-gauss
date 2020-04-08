@@ -3,11 +3,11 @@
     <h1 class="fs-20 text-center">
       COVID-19 timeline prediction<br>
       <small>
-        with Gauss curve
+        with Gaussian curve
       </small>
     </h1>
     <p class="text-center fs-16">
-      Predictions are based on mathematical model and are not ment to be considered a reliable source.
+      Predictions are based on a mathematical model and should not be considered a reliable source.
     </p>
     <div class="pv-40 ph-20">
       <CountrySelector />
@@ -44,6 +44,11 @@
 import CountrySelector from '@/components/CountrySelector'
 
 export default {
-  components: { CountrySelector }
+  components: { CountrySelector },
+  computed: {
+    $t() {
+      return this.$store.getters['dict/getTranslation']
+    }
+  }
 }
 </script>

@@ -84,7 +84,7 @@ select {
   background-color: var(--bg-color);
   width: 100%;
   border: 0;
-  font-weight: 100;
+  font-weight: 400;
   outline: 0;
   padding-right: 25px;
   border-bottom: 2px dashed var(--color-muted);

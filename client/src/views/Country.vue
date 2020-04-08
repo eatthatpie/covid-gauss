@@ -7,11 +7,11 @@
       <h1 class="fs-20 text-center">
         <div class="fs-32">{{ report.country.name }}</div>
         <div class="pt-10">
-          COVID-19 timeline prediction with Gauss curve
+          COVID-19 timeline prediction with Gaussian curve
         </div>
       </h1>
       <p class="text-center fs-16">
-        Predictions are based on mathematical model and are not ment to be considered a reliable source.
+        Predictions are based on a mathematical model and should not be considered a reliable source.
       </p>
       <p
         v-if="slug === 'poland'"
