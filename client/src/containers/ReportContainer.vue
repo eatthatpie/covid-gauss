@@ -12,11 +12,15 @@ export default {
     slug: {
       type: String,
       default: null
+    },
+    done: {
+      type: Function,
+      default: () => {}
     }
   },
   data() {
     return {
-      report: null
+      report: false
     }
   },
   mounted() {
@@ -24,6 +28,15 @@ export default {
       .then(res => {
         this.report = res.report
       })
+      .catch(e => {
+        this.report = false
+      })
+      .finally(() => {
+        this.$emit('done')
+      })
+  },
+  methods: {
+    done() {}
   }
 }
 </script>

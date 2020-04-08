@@ -3,6 +3,7 @@
     <ReportContainer
       v-slot="{ report }"
       :slug="slug"
+      class="bg"
     >
       <h1 class="fs-20 text-center">
         <div class="fs-32">{{ report.country.name }}</div>
@@ -14,22 +15,36 @@
         Predictions are based on a mathematical model and should not be considered a reliable source.
       </p>
       <p
-        v-if="slug === 'poland'"
+        v-if="!report.has_valid_estimation"
         class="frame text-center fs-16"
       >
-        Estimation for this country is made with consideration of confirmed data till April 1st 2020.
+        Because the structure of actual data for this country we are not able to accurately estimate the timeline.
       </p>
-      <p class="text-center">
-          <span class="color-gray fs-14">Estimated last day date</span><br>
-          <span class="fs-18">{{ report.estimation.last_day_date }}</span>
-        </p>
-      <div class="pt-30">
+      <p
+        v-if="report.has_valid_estimation"
+        class="text-center"
+      >
+        <span class="color-gray fs-14">Estimated last day date</span><br>
+        <span class="fs-18">{{ report.estimation.last_day_date }}</span>
+      </p>
+      <p
+        v-else
+        class="text-center"
+      >
+        <span class="color-gray fs-14">Recently infected</span><br>
+        <span class="fs-18">{{ report.recent_total_infected }}</span>
+      </p>
+      <div>
         <Chart :data="report" />
       </div>
       <div
-        v-if="report"
-        style="width: 320px; margin: 120px auto 0;"
+        v-if="report && report.has_valid_estimation"
+        class="w-320 mt-120 mh-a mb-0"
       >
+        <!-- <p>
+          <span class="color-gray fs-14">Estimated last day date</span><br>
+          <span class="fs-18">{{ report.estimation.last_day_date }}</span>
+        </p> -->
         <p>
           <span class="color-gray fs-14">Estimated peak date</span><br>
           <span class="fs-18">{{ report.estimation.peak_day_date }}</span>
@@ -51,10 +66,20 @@
           <span class="fs-18">{{ report.estimation.total_infected }}</span>
         </p>
       </div>
+      <div
+        v-else
+        class="mt-80"
+      />
+      <div class="pv-40 ph-20">
+        <CountrySelector />
+      </div>
     </ReportContainer>
-    <div class="pv-40 ph-20">
-      <CountrySelector />
-    </div>
+    <!-- <p class="pt-40 ph-20 text-center fs-16">
+     Remember: this is only an estimation.
+    </p>
+    <p class="ph-20 text-center fs-16">
+      The only thing we know for sure is if we stay home we can make the curve flatter, and numbers above better.
+    </p> -->
   </div>
 </template>
 
@@ -69,12 +94,13 @@ export default {
     slug() {
       return this.$route.params.slug
     }
-  },
+  }
 }
 </script>
 
 <style lang="scss">
 .__page {
   overflow-x: hidden;
+  position: relative;
 }
 </style>

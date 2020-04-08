@@ -8,6 +8,9 @@ y = eval('[' + sys.argv[2] + ']')
 def provider(x, a, b, c):
   return a * np.exp(-(x - b)*(x - b) / (2 * c * c))
 
-param = curve_fit(provider, x, y)
+params, pcov = curve_fit(provider, x, y)
 
-print(param[0])
+err = np.sqrt(np.diag(pcov))
+
+print(params)
+print(err)

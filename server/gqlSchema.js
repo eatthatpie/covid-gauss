@@ -37,6 +37,8 @@ const gqlSchema = `
     daily: [DailyReport]
     country: Country
     estimation: Estimation
+    has_valid_estimation: Boolean
+    max_actual_new_infections_daily: Int
     recent_total_infected: Int
   }
 
