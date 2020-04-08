@@ -4,18 +4,16 @@
       <div
         v-for="item in data.daily"
         :key="item.date"
-        :style="`position: relative; background-color: #99999999; width: 100%; height: ${250 * item.estimated_new_infected / data.estimation.peak_day_new_infected}px;`"
+        :style="`height: ${250 * item.estimated_new_infected / data.estimation.peak_day_new_infected}px;`"
         :data-date="item.date"
         class="chart-column"
       >
         <div
           v-if="item.new_infected"
-          :style="`position: absolute; left: 0; right: 0; bottom: 0; background-color: #99000055; height: ${250 * item.new_infected / data.estimation.peak_day_new_infected}px;`"
+          :style="`height: ${250 * item.new_infected / data.estimation.peak_day_new_infected}px;`"
+          class="chart-column-confirmed"
         />
-        <div
-          :style="`position: absolute; bottom: 100%; padding: 5px; background-color: #000; color: #fff; white-space: nowrap;`"
-          class="chart-column-label fs-14 text-center"
-        >
+        <div class="chart-column-label fs-14 text-center">
           {{ item.date }}<br>
           <div v-if="item.new_infected">
             confirmed new infections: {{ item.new_infected }}
@@ -30,11 +28,26 @@
 </template>
 
 <script>
+import { getWindowWidth } from '@/helpers'
+
 export default {
   props: {
     data: {
       type: Object,
       default: null
+    }
+  },
+  mounted() {
+    // Adjusting labels to window size
+    const labels = document.querySelectorAll('.chart-column-label')
+
+    for (let i = 0; i < labels.length; i++) {
+      const w = getWindowWidth()
+      const s = labels[i].offsetWidth + labels[i].offsetParent.offsetLeft
+
+      if (s > w - 20) {
+        labels[i].style.left = `${(w - s - 20)}px`
+      }
     }
   }
 }
@@ -50,6 +63,9 @@ export default {
 
   &-column {
     cursor: pointer;
+    background-color: #99999999;
+    width: 100%;
+    position: relative;
 
     &:nth-child(7n) {
       &:after {
@@ -81,11 +97,26 @@ export default {
       opacity: 0;
     }
 
+    &-confirmed {
+      background-color: #99000055;
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+    }
+
     &-label {
-      pointer-events: none;
-      position: relative;
+      background-color: #000;
+      color: #fff;
       opacity: 0;
       z-index: 1;
+      left: 0;
+      bottom: 100%;
+      padding: 5px;
+      margin-bottom: 10px;
+      white-space: nowrap;
+      pointer-events: none;
+      position: absolute;
     }
 
     &:hover {
