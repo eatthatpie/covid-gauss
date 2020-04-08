@@ -42,6 +42,8 @@ const queryReport = `
         new_infected
         estimated_new_infected
       }
+      has_valid_estimation
+      max_actual_new_infections_daily
       recent_total_infected
     }
   }

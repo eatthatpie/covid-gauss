@@ -1,9 +1,10 @@
 .frame {
   padding: 10px 20px;
   width: 100%;
-  max-width: 720px;
+  max-width: 640px;
   margin: 40px auto;
   border: 1px solid #990000;
   color: #990000;
   background-color: #ffdddd;
+  box-sizing: border-box;
 }

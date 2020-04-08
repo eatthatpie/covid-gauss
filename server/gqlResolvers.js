@@ -54,11 +54,7 @@ const gqlResolvers = {
       return null;
     }
 
-    const ignoreDataAfterAprilFirstForSlugs = ['poland'];
-    const report = await createEstimationReport(
-      match,
-      ignoreDataAfterAprilFirstForSlugs.indexOf(country_slug) > -1
-    );
+    const report = await createEstimationReport(match);
 
     if (!report) {
       return null;
@@ -78,6 +74,8 @@ const gqlResolvers = {
         total_dead: report.estimation.total_dead,
         upcomming_dead: report.estimation.upcomming_dead,
       },
+      has_valid_estimation: report.has_valid_estimation,
+      max_actual_new_infections_daily: report.max_actual_new_infections_daily,
       recent_total_infected: report.recent_total_infected
     };
   }

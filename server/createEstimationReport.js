@@ -1,14 +1,18 @@
 const gaussFit = require('./gaussFit');
 
-async function createEstimationReport(dailyReports, ignoreDataAfterAprilFirst2020) {
-  if (ignoreDataAfterAprilFirst2020) {
-    dailyReports.length = 71;
-  }
-  
+/**
+ * @TODO
+ * This baby needs some refactoring.
+ */
+async function createEstimationReport(dailyReports) {
   let lastDoubleZeroIndex = 0;
 
   dailyReports.forEach(function(item, i) {
-    if (i > 0 && dailyReports[i].new_infected === 0 && dailyReports[i - 1].new_infected === 0 && dailyReports[i].total_infected < 100) {
+    if (
+      i > 0 && dailyReports[i].new_infected === 0 &&
+      dailyReports[i - 1].new_infected === 0 &&
+      dailyReports[i].total_infected < 100
+    ) {
       lastDoubleZeroIndex = i;
     }
   });
@@ -23,7 +27,41 @@ async function createEstimationReport(dailyReports, ignoreDataAfterAprilFirst202
     return item.new_infected;
   });
 
-  const curveParams = await gaussFit(Object.keys(yData), yData);
+  const maxActualNewInfectionsDaily = Math.max(...yData);
+
+  let curveParams;
+
+  try {
+    curveParams = await gaussFit(Object.keys(yData), yData);
+  } catch (e) {
+    valuableData = valuableData.map(function(item, i) {
+      return Object.assign({}, item, {
+        id: item._id,
+        estimated_new_infected: null,
+        estimated_total_infected: null
+      });
+    });
+
+    const lastRealDailyReport = valuableData[valuableData.length - 1];
+
+    return {
+      daily: valuableData,
+      estimation: {
+        curve: 'gauss',
+        curve_params: null,
+        peak_day_date: null,
+        peak_day_new_infected: null,
+        last_day_date: null,
+        total_infected: null,
+        upcomming_infected: null,
+        total_dead: null,
+        upcomming_dead: null
+      },
+      has_valid_estimation: false,
+      max_actual_new_infections_daily: maxActualNewInfectionsDaily,
+      recent_total_infected: lastRealDailyReport.total_infected
+    };
+  }
 
   function curveFn(x) {
     return curveParams[0] * Math.exp(-(x - curveParams[1])*(x - curveParams[1]) / (2 * curveParams[2] * curveParams[2]));
@@ -80,6 +118,8 @@ async function createEstimationReport(dailyReports, ignoreDataAfterAprilFirst202
       total_dead: null,
       upcomming_dead: null
     },
+    has_valid_estimation: true,
+    max_actual_new_infections_daily: maxActualNewInfectionsDaily,
     recent_total_infected: lastRealDailyReport.total_infected
   };
 }

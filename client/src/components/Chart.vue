@@ -1,17 +1,24 @@
+<!--
+  @TODO
+  Refactor this.
+-->
 <template>
   <div class="chart">
-    <div class="flex flex-baseline">
+    <div class="flex flex-baseline h-250">
       <div
         v-for="item in data.daily"
         :key="item.date"
-        :style="`height: ${250 * item.estimated_new_infected / data.estimation.peak_day_new_infected}px;`"
         :data-date="item.date"
-        class="chart-column"
+        class="chart-column w-100p h-250"
       >
         <div
+          :style="`height: ${containerHeightRatio * item.estimated_new_infected}px;`"
+          class="chart-column-estimated bg-gray-muted"
+        />
+        <div
           v-if="item.new_infected"
-          :style="`height: ${250 * item.new_infected / data.estimation.peak_day_new_infected}px;`"
-          class="chart-column-confirmed"
+          :style="`height: ${containerHeightRatio * item.new_infected}px;`"
+          class="chart-column-confirmed bg-red-muted"
         />
         <div class="chart-column-label fs-14 text-center">
           {{ item.date }}<br>
@@ -37,6 +44,32 @@ export default {
       default: null
     }
   },
+  data() {
+    return {
+      desiredColumnHeight: 250
+    }
+  },
+  computed: {
+    hasValidEstimation() {
+      return this.data && this.data.has_valid_estimation
+    },
+    containerHeight() {
+      if (!this.hasValidEstimation) {
+        return this.data.max_actual_new_infections_daily
+      }
+
+      return this.data.max_actual_new_infections_daily < this.data.estimation.peak_day_new_infected
+        ? this.data.estimation.peak_day_new_infected
+        : this.data.max_actual_new_infections_daily
+    },
+    containerHeightRatio() {
+      if (this.containerHeight) {
+        return this.desiredColumnHeight / this.containerHeight
+      }
+
+      return 1
+    }
+  },
   mounted() {
     // Adjusting labels to window size
     const labels = document.querySelectorAll('.chart-column-label')
@@ -55,17 +88,17 @@ export default {
 
 <style lang="scss">
 .chart {
-  padding-top: 100px;
-  height: 250px;
+  padding-top: 60px;
   width: 100%;
   max-width: 1024px;
   margin: 0 auto;
 
   &-column {
     cursor: pointer;
-    background-color: #99999999;
-    width: 100%;
     position: relative;
+    bottom: 0;
+    left: 0;
+    right: 0;
 
     &:nth-child(7n) {
       &:after {
@@ -77,7 +110,7 @@ export default {
       content: '';
       pointer-events: none;
       position: absolute;
-      border: 3px solid #99999999;
+      background-color: #99999933;
       top: 0;
       left: 0;
       bottom: 0;
@@ -97,8 +130,8 @@ export default {
       opacity: 0;
     }
 
-    &-confirmed {
-      background-color: #99000055;
+    &-confirmed,
+    &-estimated {
       position: absolute;
       left: 0;
       right: 0;
@@ -126,6 +159,7 @@ export default {
     }
 
     &:hover & {
+      margin: 100px;
       &-label {
         opacity: 1;
       }
