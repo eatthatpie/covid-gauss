@@ -1,40 +1,17 @@
-var { buildSchema } = require('graphql');
+var cors = require('cors');
 var graphqlHTTP = require('express-graphql');
+var gqlResolvers = require('./gqlResolvers');
+var gqlSchema = require('./gqlSchema');
+var { buildSchema } = require('graphql');
 
-var schema = buildSchema(`
-  type Country {
-    id: String
-    name: String
-    province_name: String
-    slug: String
-    lat: Float
-    lng: Float
-  }
-
-  type Query {
-    country(slug: String!): Country
-    countries: [Country]
-  }
-`);
-
-var rootValue = {
-  country: async function({ slug }) {
-    return {
-      id: '1',
-      name: 'Poland',
-      province_name: null,
-      slug: 'poland',
-      lat: 12.345,
-      lng: 13.456
-    }
-  }
-};
+var schema = buildSchema(gqlSchema);
 
 function createGqlServer(app) {
+  app.use(cors({ origin: 'https://covid-gauss.site' }));
   app.use(graphqlHTTP({
     schema,
-    rootValue,
-    graphiql: true
+    rootValue: gqlResolvers,
+    graphiql: process.env.NODE_ENV === 'dev'
   }));
 }
 

@@ -1,0 +1,25 @@
+.activity-enter {
+  opacity: 0;
+}
+
+.activity-enter-to {
+  opacity: 1;
+}
+
+.activity-enter-active {
+  transition: all 0.2s ease-in-out;
+}
+
+.activity-leave {
+  transform: scale(0.9);
+  opacity: 0.5;
+}
+
+.activity-leave-to {
+  transform: scale(0.98);
+  opacity: 0;
+}
+
+.activity-leave-active {
+  transition: all 0.2s ease-in-out;
+}

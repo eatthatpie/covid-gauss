@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=Metrophobic&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Istok+Web:wght@400;700&display=swap');
+// We do not need full 12 kB css script from FA.
+// Icons are defined in fa.scss.
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/brands.min.css');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/solid.min.css');
+
+:root {
+  --bg-color: #fff;
+  --color-default: #222;
+  --color-muted: #ccc;
+  --color-primary: #689a17;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+html {
+  font-size: 20px;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--color-default);
+  font-family: 'Metrophobic', system-ui, arial, sans-serif;
+  font-size: 100%;
+  font-weight: 300;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 1em 0;
+  line-height: 1.35em;
+}
+
+p {
+  line-height: 1.35em;
+}
+
+p + p {
+  margin: 1em 0;
+}
+
+ul {
+  li {
+    margin: 10px 0;
+  }
+}

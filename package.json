@@ -4,17 +4,23 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon index.js",
+    "dev": "NODE_ENV=dev nodemon server/index.js",
+    "import": "node scripts/importer.js",
+    "start": "node server/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
+    "csv-parse": "^4.8.8",
     "express": "^4.17.1",
     "express-graphql": "^0.9.0",
     "graphql": "^14.6.0",
-    "mongoose": "^5.9.7"
+    "mongoose": "^5.9.7",
+    "node-fetch": "^2.6.0",
+    "slugify": "^1.4.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.2"
