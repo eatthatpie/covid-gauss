@@ -19,7 +19,9 @@ const gqlResolvers = {
     };
   },
   countries: async function() {
-    const match = await Country.find();
+    const match = await Country
+      .find()
+      .sort([['name', 1], ['province_name', 1]]);
 
     if (!match || !match.length) {
       return null;
@@ -37,7 +39,11 @@ const gqlResolvers = {
     });
   },
   report: async function({ country_slug, date }) {
-    const match = await DailyReport.find({ country_slug }).lean().exec();
+    const match = await DailyReport
+      .find({ country_slug })
+      .lean()
+      .exec();
+
     const country = await Country.findOne({ slug: country_slug });
 
     if (!match || !match.length) {
