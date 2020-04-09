@@ -12,10 +12,6 @@ export default {
     slug: {
       type: String,
       default: null
-    },
-    done: {
-      type: Function,
-      default: () => {}
     }
   },
   data() {
@@ -32,11 +28,8 @@ export default {
         this.report = false
       })
       .finally(() => {
-        this.$emit('done')
+        this.$emit('done', !!this.report)
       })
-  },
-  methods: {
-    done() {}
   }
 }
 </script>

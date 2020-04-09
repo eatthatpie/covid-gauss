@@ -38,7 +38,8 @@ async function createEstimationReport(dailyReports) {
       return Object.assign({}, item, {
         id: item._id,
         estimated_new_infected: null,
-        estimated_total_infected: null
+        estimated_total_infected: null,
+        date: new Date(item.date + ' UTC').toString()
       });
     });
 
@@ -76,7 +77,8 @@ async function createEstimationReport(dailyReports) {
     return Object.assign({}, item, {
       id: item._id,
       estimated_new_infected: estimatedNewInfected,
-      estimated_total_infected: estimatedTotalInfected
+      estimated_total_infected: estimatedTotalInfected,
+      date: new Date(item.date + ' UTC').toString()
     });
   });
 
@@ -85,18 +87,19 @@ async function createEstimationReport(dailyReports) {
   let i = valuableData.length;
   let curr;
 
-  let dt = new Date(lastRealDailyReport.date).getTime();
+  let dt = new Date(lastRealDailyReport.date + ' UTC');
 
   while ((curr = Math.round(curveFn(i))) > 0) {
     totalInfected += curr;
-    dt += 24 * 60 * 60 * 1000;
-    
-    const d = new Date(dt);
+
+    dt.setDate(dt.getDate() + 1);
+
+    const d = new Date(Date.UTC(dt.getFullYear(), dt.getMonth(), dt.getDate()));
 
     valuableData.push({
       estimated_new_infected: curr,
       estimated_total_infected: totalInfected,
-      date: `${d.getUTCFullYear()}-${d.getMonth() > 8 ? d.getMonth() + 1 : '0' + (d.getMonth() + 1)}-${d.getDate() > 9 ? d.getDate() : '0' + d.getDate()}`
+      date: d.toString()
     });
 
     i++;

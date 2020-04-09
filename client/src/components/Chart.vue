@@ -8,7 +8,7 @@
       <div
         v-for="item in data.daily"
         :key="item.date"
-        :data-date="item.date"
+        :data-date="formatDate(item.date)"
         class="chart-column w-100p h-250"
       >
         <div
@@ -21,7 +21,7 @@
           class="chart-column-confirmed bg-red-muted"
         />
         <div class="chart-column-label fs-14 text-center">
-          {{ item.date }}<br>
+          {{ formatDate(item.date) }}<br>
           <div v-if="item.new_infected">
             confirmed new infections: {{ item.new_infected }}
           </div>
@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import { getWindowWidth } from '@/helpers'
+import { formatDate, getWindowWidth } from '@/helpers'
 
 export default {
   props: {
@@ -46,7 +46,8 @@ export default {
   },
   data() {
     return {
-      desiredColumnHeight: 250
+      desiredColumnHeight: 250,
+      formatDate
     }
   },
   computed: {
@@ -76,7 +77,11 @@ export default {
 
     for (let i = 0; i < labels.length; i++) {
       const w = getWindowWidth()
-      const s = labels[i].offsetWidth + labels[i].offsetParent.offsetLeft
+      const s = (
+        labels[i].offsetWidth +
+        labels[i].offsetParent.offsetLeft +
+        labels[i].offsetParent.offsetParent.offsetLeft
+      )
 
       if (s > w - 20) {
         labels[i].style.left = `${(w - s - 20)}px`
