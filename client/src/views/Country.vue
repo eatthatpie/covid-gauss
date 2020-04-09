@@ -1,5 +1,6 @@
 <template>
   <div class="__page">
+    <Loader :isActive="isLoading" />
     <p
       v-if="!isReportValid"
       class="frame text-center fs-16"
@@ -25,7 +26,7 @@
         v-if="!report.has_valid_estimation"
         class="frame text-center fs-16"
       >
-        Because the structure of actual data for this country we are not able to accurately estimate the timeline.
+        Due to the structure of actual data for this country we are not able to accurately estimate the timeline.
       </p>
       <p
         v-if="report.has_valid_estimation"
@@ -93,14 +94,16 @@
 <script>
 import Chart from '@/components/Chart'
 import CountrySelector from '@/components/CountrySelector'
+import Loader from '@/components/Loader'
 import ReportContainer from '@/containers/ReportContainer'
 import { formatDate } from '@/helpers'
 
 export default {
-  components: { Chart, CountrySelector, ReportContainer },
+  components: { Chart, CountrySelector, Loader, ReportContainer },
   data() {
     return {
       formatDate,
+      isLoading: true,
       isReportValid: true
     }
   },
@@ -111,6 +114,7 @@ export default {
   },
   methods: {
     onLoadingDone(isReportValid) {
+      this.isLoading = false
       this.isReportValid = isReportValid
     }
   }
