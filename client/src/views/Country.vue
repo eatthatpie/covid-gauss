@@ -1,9 +1,16 @@
 <template>
   <div class="__page">
+    <p
+      v-if="!isReportValid"
+      class="frame text-center fs-16"
+    >
+      No data for this country.
+    </p>
     <ReportContainer
       v-slot="{ report }"
       :slug="slug"
       class="bg"
+      @done="onLoadingDone"
     >
       <h1 class="fs-20 text-center">
         <div class="fs-32">{{ report.country.name }}</div>
@@ -25,7 +32,7 @@
         class="text-center"
       >
         <span class="color-gray fs-14">Estimated last day date</span><br>
-        <span class="fs-18">{{ report.estimation.last_day_date }}</span>
+        <span class="fs-18">{{ formatDate(report.estimation.last_day_date) }}</span>
       </p>
       <p
         v-else
@@ -47,7 +54,7 @@
         </p> -->
         <p>
           <span class="color-gray fs-14">Estimated peak date</span><br>
-          <span class="fs-18">{{ report.estimation.peak_day_date }}</span>
+          <span class="fs-18">{{ formatDate(report.estimation.peak_day_date) }}</span>
         </p>
         <p>
           <span class="color-gray fs-14">Estimated new infections at peek day</span><br>
@@ -70,9 +77,6 @@
         v-else
         class="mt-80"
       />
-      <div class="pv-40 ph-20">
-        <CountrySelector />
-      </div>
     </ReportContainer>
     <!-- <p class="pt-40 ph-20 text-center fs-16">
      Remember: this is only an estimation.
@@ -80,6 +84,9 @@
     <p class="ph-20 text-center fs-16">
       The only thing we know for sure is if we stay home we can make the curve flatter, and numbers above better.
     </p> -->
+    <div class="pv-40 ph-20">
+      <CountrySelector />
+    </div>
   </div>
 </template>
 
@@ -87,12 +94,24 @@
 import Chart from '@/components/Chart'
 import CountrySelector from '@/components/CountrySelector'
 import ReportContainer from '@/containers/ReportContainer'
+import { formatDate } from '@/helpers'
 
 export default {
   components: { Chart, CountrySelector, ReportContainer },
+  data() {
+    return {
+      formatDate,
+      isReportValid: true
+    }
+  },
   computed: {
     slug() {
       return this.$route.params.slug
+    }
+  },
+  methods: {
+    onLoadingDone(isReportValid) {
+      this.isReportValid = isReportValid
     }
   }
 }
