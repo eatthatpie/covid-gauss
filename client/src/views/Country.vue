@@ -58,7 +58,7 @@
           <span class="fs-18">{{ formatDate(report.estimation.peak_day_date) }}</span>
         </p>
         <p>
-          <span class="color-gray fs-14">Estimated new infections at peek day</span><br>
+          <span class="color-gray fs-14">Estimated new infections at peak day</span><br>
           <span class="fs-18">{{ report.estimation.peak_day_new_infected }}</span>
         </p>
         <p>
