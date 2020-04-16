@@ -39,8 +39,17 @@ const gqlResolvers = {
     });
   },
   report: async function({ country_slug, date }) {
+    const query = !date
+      ? { country_slug }
+      : {
+        country_slug,
+        date_obj: {
+          $lte: new Date(date).setDate(new Date(date).getDate() - 1).toString()
+        }
+      };
+
     const match = await DailyReport
-      .find({ country_slug })
+      .find(query)
       .lean()
       .exec();
 
