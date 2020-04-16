@@ -32,7 +32,7 @@
         v-if="report.has_valid_estimation"
         class="text-center"
       >
-        <span class="color-gray fs-14">Estimated last day date</span><br>
+        <span class="color-gray fs-14">Estimated last day of new infections</span><br>
         <span class="fs-18">{{ formatDate(report.estimation.last_day_date) }}</span>
       </p>
       <p
@@ -54,19 +54,19 @@
           <span class="fs-18">{{ report.estimation.last_day_date }}</span>
         </p> -->
         <p>
-          <span class="color-gray fs-14">Estimated peak date</span><br>
-          <span class="fs-18">{{ formatDate(report.estimation.peak_day_date) }}</span>
+          <span class="color-gray fs-14">Estimated curve peak date</span><br>
+          <span class="fs-18">{{ formatDate(report.estimation.curve_peak_day_date) }}</span>
         </p>
         <p>
-          <span class="color-gray fs-14">Estimated new infections at peak day</span><br>
-          <span class="fs-18">{{ report.estimation.peak_day_new_infected }}</span>
+          <span class="color-gray fs-14">Estimated number of infections at curve peak day</span><br>
+          <span class="fs-18">{{ report.estimation.curve_peak_day_new_infected }}</span>
         </p>
         <p>
           <span class="color-gray fs-14">Recently infected</span><br>
           <span class="fs-18">{{ report.recent_total_infected }}</span>
         </p>
         <p>
-          <span class="color-gray fs-14">Estimated new infections till last day</span><br>
+          <span class="color-gray fs-14">Estimated number of upcoming infections</span><br>
           <span class="fs-18">{{ report.estimation.upcomming_infected }}</span>
         </p>
         <p>

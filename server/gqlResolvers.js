@@ -68,6 +68,8 @@ const gqlResolvers = {
         curve_params: report.estimation.curve_params,
         peak_day_date: report.estimation.peak_day_date,
         peak_day_new_infected: report.estimation.peak_day_new_infected,
+        curve_peak_day_date: report.estimation.curve_peak_day_date,
+        curve_peak_day_new_infected: report.estimation.curve_peak_day_new_infected,
         last_day_date: report.estimation.last_day_date,
         total_infected: report.estimation.total_infected,
         upcomming_infected: report.estimation.upcomming_infected,
