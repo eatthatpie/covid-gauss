@@ -33,8 +33,8 @@ const queryReport = `
       estimation {
         last_day_date
         upcomming_infected
-        peak_day_date
-        peak_day_new_infected
+        curve_peak_day_date
+        curve_peak_day_new_infected
         total_infected
       }
       daily {

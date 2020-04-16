@@ -26,6 +26,8 @@ const gqlSchema = `
     curve_params: [Float]
     peak_day_date: String
     peak_day_new_infected: Int
+    curve_peak_day_date: String
+    curve_peak_day_new_infected: Int
     last_day_date: String
     total_infected: Int
     upcomming_infected: Int

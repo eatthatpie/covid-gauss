@@ -38,6 +38,7 @@ function createMappedData(raw, fieldName) {
           [date]: {
             country_slug: slug,
             date: date,
+            date_obj: new Date(date + ' UTC'),
             ['new_' + fieldName]: value - previousValue,
             ['total_' + fieldName]: value
           }
@@ -46,6 +47,7 @@ function createMappedData(raw, fieldName) {
         dailyReports[countryFullName][date] = {
           country_slug: slug,
           date: date,
+          date_obj: new Date(date + ' UTC'),
           ['new_' + fieldName]: value - previousValue,
           ['total_' + fieldName]: value
         };
@@ -124,15 +126,15 @@ function createMappedData(raw, fieldName) {
       };
     });
 
-    console.log('done');
+    console.log('Import done. Countries bulk write...');
 
     await Country.bulkWrite(bulkCountries);
 
-    console.log('done...');
+    console.log('Countries bulk write done. Daily reports bulk write...');
 
     await DailyReport.bulkWrite(bulkDailyReports);
 
-    console.log('done');
+    console.log('Writing done.');
 
     const used = process.memoryUsage();
 

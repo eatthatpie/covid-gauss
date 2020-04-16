@@ -52,6 +52,8 @@ async function createEstimationReport(dailyReports) {
         curve_params: null,
         peak_day_date: null,
         peak_day_new_infected: null,
+        curve_peak_day_date: null,
+        curve_peak_day_new_infected: null,
         last_day_date: null,
         total_infected: null,
         upcomming_infected: null,
@@ -107,6 +109,17 @@ async function createEstimationReport(dailyReports) {
 
   const lasyDailyReport = valuableData[valuableData.length - 1];
   const medianDailyReport = valuableData[Math.round(valuableData.length / 2)];
+  const curvePeakDay = valuableData.reduce(function (prev, curr) {
+    if (!prev) {
+      return curr;
+    }
+
+    if (prev.estimated_new_infected < curr.estimated_new_infected) {
+      return curr;
+    }
+
+    return prev;
+  });
 
   return {
     daily: valuableData,
@@ -115,6 +128,8 @@ async function createEstimationReport(dailyReports) {
       curve_params: curveParams,
       peak_day_date: medianDailyReport.date,
       peak_day_new_infected: medianDailyReport.estimated_new_infected,
+      curve_peak_day_date: curvePeakDay.date,
+      curve_peak_day_new_infected: curvePeakDay.estimated_new_infected,
       last_day_date: lasyDailyReport.date,
       total_infected: totalInfected,
       upcomming_infected: totalInfected - lastRealDailyReport.total_infected,
