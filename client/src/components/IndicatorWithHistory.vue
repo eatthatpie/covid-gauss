@@ -182,6 +182,10 @@ export default {
       z-index: -1;
       position: absolute;
     }
+
+    @media (max-width: 480px) {
+      max-width: calc(100% - 40px);
+    }
   }
 }
 </style>
