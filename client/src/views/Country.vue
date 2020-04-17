@@ -8,7 +8,7 @@
       No data for this country.
     </p>
     <ReportContainer
-      v-slot="{ report }"
+      v-slot="{ report, history }"
       :slug="slug"
       class="bg"
       @done="onLoadingDone"
@@ -28,13 +28,21 @@
       >
         Due to the structure of actual data for this country we are not able to accurately estimate the timeline.
       </p>
-      <p
+      <IndicatorWithHistory
         v-if="report.has_valid_estimation"
+        :label="`Estimated last day of new infections`"
+        :value="report.estimation.last_day_date"
+        :historicalValues="history
+          ? {
+            '24h': history[0].estimation.last_day_date,
+            '1 week': history[1].estimation.last_day_date,
+            '2 weeks': history[2].estimation.last_day_date
+          }
+          : null
+        "
+        valueType="date"
         class="text-center"
-      >
-        <span class="color-gray fs-14">Estimated last day of new infections</span><br>
-        <span class="fs-18">{{ formatDate(report.estimation.last_day_date) }}</span>
-      </p>
+      />
       <p
         v-else
         class="text-center"
@@ -47,44 +55,87 @@
       </div>
       <div
         v-if="report && report.has_valid_estimation"
-        class="w-320 mt-120 mh-a mb-0"
+        class="w-320 max-w-100p mt-120 mh-a mb-0"
       >
-        <!-- <p>
-          <span class="color-gray fs-14">Estimated last day date</span><br>
-          <span class="fs-18">{{ report.estimation.last_day_date }}</span>
-        </p> -->
-        <p>
-          <span class="color-gray fs-14">Estimated curve peak date</span><br>
-          <span class="fs-18">{{ formatDate(report.estimation.curve_peak_day_date) }}</span>
-        </p>
-        <p>
-          <span class="color-gray fs-14">Estimated number of infections at curve peak day</span><br>
-          <span class="fs-18">{{ report.estimation.curve_peak_day_new_infected }}</span>
-        </p>
-        <p>
-          <span class="color-gray fs-14">Recently infected</span><br>
-          <span class="fs-18">{{ report.recent_total_infected }}</span>
-        </p>
-        <p>
-          <span class="color-gray fs-14">Estimated number of upcoming infections</span><br>
-          <span class="fs-18">{{ report.estimation.upcomming_infected }}</span>
-        </p>
-        <p>
-          <span class="color-gray fs-14">Estimated total infections</span><br>
-          <span class="fs-18">{{ report.estimation.total_infected }}</span>
-        </p>
+        <IndicatorWithHistory
+          :label="`Estimated curve peak date`"
+          :value="report.estimation.curve_peak_day_date"
+          :historicalValues="history
+            ? {
+              '24h': history[0].estimation.curve_peak_day_date,
+              '1 week': history[1].estimation.curve_peak_day_date,
+              '2 weeks': history[2].estimation.curve_peak_day_date
+            }
+            : null
+          "
+          valueType="date"
+        />
+        <IndicatorWithHistory
+          :label="`Estimated number of infections at curve peak day`"
+          :value="report.estimation.curve_peak_day_new_infected"
+          :historicalValues="history
+            ? {
+              '24h': history[0].estimation.curve_peak_day_new_infected,
+              '1 week': history[1].estimation.curve_peak_day_new_infected,
+              '2 weeks': history[2].estimation.curve_peak_day_new_infected
+            }
+            : null
+          "
+        />
+        <IndicatorWithHistory
+          :label="`Recently infected`"
+          :value="report.recent_total_infected"
+          :historicalValues="history
+            ? {
+              '24h': history[0].recent_total_infected,
+              '1 week': history[1].recent_total_infected,
+              '2 weeks': history[2].recent_total_infected
+            }
+            : null
+          "
+        />
+        <IndicatorWithHistory
+          :label="`Estimated number of upcoming infections`"
+          :value="report.estimation.upcomming_infected"
+          :historicalValues="history
+            ? {
+              '24h': history[0].estimation.upcomming_infected,
+              '1 week': history[1].estimation.upcomming_infected,
+              '2 weeks': history[2].estimation.upcomming_infected
+            }
+            : null
+          "
+        />
+        <!-- <IndicatorWithHistory
+          :label="`Estimated number of upcoming infections`"
+          :value="report.estimation.upcomming_infected"
+          :historicalValues="history
+            ? {
+              '24h': report.estimation.total_infected - history[0].recent_total_infected,
+              '1 week': report.estimation.total_infected - history[1].recent_total_infected,
+              '2 weeks': report.estimation.total_infected - history[2].recent_total_infected
+            }
+            : null
+          "
+        /> -->
+         <IndicatorWithHistory
+          :label="`Estimated total infections`"
+          :value="report.estimation.total_infected"
+          :historicalValues="history
+            ? {
+              '24h': history[0].estimation.total_infected,
+              '1 week': history[1].estimation.total_infected,
+              '2 weeks': history[2].estimation.total_infected
+            }
+            : null
+          "
+        />
       </div>
       <div
         v-else
         class="mt-80"
       />
     </ReportContainer>
-    <!-- <p class="pt-40 ph-20 text-center fs-16">
-     Remember: this is only an estimation.
-    </p>
-    <p class="ph-20 text-center fs-16">
-      The only thing we know for sure is if we stay home we can make the curve flatter, and numbers above better.
-    </p> -->
     <div class="pv-40 ph-20">
       <CountrySelector />
     </div>
@@ -94,12 +145,21 @@
 <script>
 import Chart from '@/components/Chart'
 import CountrySelector from '@/components/CountrySelector'
+import Indicator from '@/components/Indicator'
+import IndicatorWithHistory from '@/components/IndicatorWithHistory'
 import Loader from '@/components/Loader'
 import ReportContainer from '@/containers/ReportContainer'
 import { formatDate } from '@/helpers'
 
 export default {
-  components: { Chart, CountrySelector, Loader, ReportContainer },
+  components: {
+    Chart,
+    CountrySelector,
+    Loader,
+    Indicator,
+    IndicatorWithHistory,
+    ReportContainer
+  },
   data() {
     return {
       formatDate,
