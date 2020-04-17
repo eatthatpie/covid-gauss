@@ -1,3 +1,14 @@
+export function getRelativeDate(days, toString = true) {
+  const date = new Date()
+  date.setDate(date.getDate() + days)
+
+  if (toString) {
+      return date.toString()
+  }
+
+  return date
+}
+
 export function getWindowHeight() {
     return (
         window.innerHeight ||
