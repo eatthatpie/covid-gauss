@@ -34,9 +34,9 @@ export default {
       })
 
     Promise.all([
-      makeQuery(queryHistoricalReport, { slug: this.slug, date: getRelativeDate(-2) }),
-      makeQuery(queryHistoricalReport, { slug: this.slug, date: getRelativeDate(-8) }),
-      makeQuery(queryHistoricalReport, { slug: this.slug, date: getRelativeDate(-15) })
+      makeQuery(queryHistoricalReport, { slug: this.slug, date: getRelativeDate(-1) }),
+      makeQuery(queryHistoricalReport, { slug: this.slug, date: getRelativeDate(-7) }),
+      makeQuery(queryHistoricalReport, { slug: this.slug, date: getRelativeDate(-14) })
     ])
       .then(res => {
         this.history = res.map(v => v.report)
