@@ -5,3 +5,11 @@
 .element-relative {
   position: relative;
 }
+
+.paragraph {
+  display: block;
+
+  & + .paragraph {
+    margin: 1em 0;
+  }
+}

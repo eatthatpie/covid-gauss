@@ -6,10 +6,18 @@
   color: #999;
 }
 
+.color-green {
+  color: green;
+}
+
 .color-muted {
   color: #ccc;
 }
 
 .color-primary {
   color: var(--color-primary);
+}
+
+.color-red {
+  color: red;
 }

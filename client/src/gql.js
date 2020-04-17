@@ -49,4 +49,20 @@ const queryReport = `
   }
 `
 
-export { makeQuery, queryAllCountries, queryReport }
+const queryHistoricalReport = `
+  query queryHistoricalReport($slug: String!, $date: String!) {
+    report(country_slug: $slug, date: $date) {
+      estimation {
+        last_day_date
+        upcomming_infected
+        curve_peak_day_date
+        curve_peak_day_new_infected
+        total_infected
+      }
+      has_valid_estimation
+      recent_total_infected
+    }
+  }
+`
+
+export { makeQuery, queryAllCountries, queryHistoricalReport, queryReport }

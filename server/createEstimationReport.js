@@ -39,7 +39,7 @@ async function createEstimationReport(dailyReports) {
         id: item._id,
         estimated_new_infected: null,
         estimated_total_infected: null,
-        date: new Date(item.date + ' UTC').toString()
+        date: item.date_obj.toString()
       });
     });
 
@@ -61,8 +61,12 @@ async function createEstimationReport(dailyReports) {
         upcomming_dead: null
       },
       has_valid_estimation: false,
-      max_actual_new_infections_daily: maxActualNewInfectionsDaily,
-      recent_total_infected: lastRealDailyReport.total_infected
+      max_actual_new_infections_daily: yData.length
+        ? maxActualNewInfectionsDaily
+        : 0,
+      recent_total_infected: lastRealDailyReport
+        ? lastRealDailyReport.total_infected
+        : 0
     };
   }
 
@@ -80,16 +84,16 @@ async function createEstimationReport(dailyReports) {
       id: item._id,
       estimated_new_infected: estimatedNewInfected,
       estimated_total_infected: estimatedTotalInfected,
-      date: new Date(item.date + ' UTC').toString()
+      date: item.date_obj.toString()
     });
   });
 
-  const lastRealDailyReport = valuableData[valuableData.length - 1];
+  const lastRealDailyReport = valuableData[valuableData.length - 1]
   let totalInfected = lastRealDailyReport.total_infected;
   let i = valuableData.length;
   let curr;
 
-  let dt = new Date(lastRealDailyReport.date + ' UTC');
+  let dt = lastRealDailyReport.date_obj;
 
   while ((curr = Math.round(curveFn(i))) > 0) {
     totalInfected += curr;
