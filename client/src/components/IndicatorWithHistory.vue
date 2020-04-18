@@ -28,6 +28,15 @@
       />
       {{ formatChange(historicalValuesMapped[0].change) }}
     </span>
+    <!-- <span
+      v-else-if="shouldHaveHistory"
+      class="indicator-placeholder spin"
+    /> -->
+    <Loader
+      v-else-if="shouldHaveHistory"
+      :isActive="true"
+      class="indicator-loader"
+    />
     <span
       v-if="hasHistory && isOpen"
       class="indicator-history paragraph fs-14 mt-1em mh-a"
@@ -63,9 +72,11 @@
 </template>
 
 <script>
+import Loader from '@/components/Loader'
 import { formatDate } from '@/helpers'
 
 export default {
+  components: { Loader },
   props: {
     label: {
       type: String,
@@ -82,6 +93,10 @@ export default {
     historicalValues: {
       type: Object,
       default: () => null
+    },
+    shouldHaveHistory: {
+      type: Boolean,
+      default: true
     }
   },
   data() {
@@ -151,11 +166,41 @@ export default {
 
 <style lang="scss">
 .indicator {
+  &-loader {
+    height: 18px;
+    width: 32px;
+    margin-left: 10px;
+    transform-origin: 0 100%;
+    transform: scale(0.4, 0.5);
+    display: inline-block;
+
+    span {
+      background-color: #99999999;
+
+      &:nth-child(1) { height: 18px; animation: dance 1.5s 0s infinite; }
+      &:nth-child(2) { height: 18px; animation: dance 1.8s 0.1s infinite; }
+      &:nth-child(3) { height: 18px; animation: dance 0.9s 0.2s infinite; }
+      &:nth-child(4) { height: 18px; animation: dance 1.5s 0.3s infinite; }
+      &:nth-child(5) { height: 18px; animation: dance 1.5s 0.4s infinite; }
+    }
+  }
+
+  &-placeholder {
+    margin-left: 10px;
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+    border-top: 1px solid #999;
+    border-left: 1px solid #999;
+    display: inline-block;
+  }
+
   &-change {
     color: green;
     border-bottom: dashed 1px green;
     margin-left: 10px;
     top: -2px;
+    line-height: 24px;
     position: relative;
     cursor: pointer;
 
