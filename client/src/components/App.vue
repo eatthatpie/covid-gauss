@@ -1,5 +1,5 @@
 <template>
-  <div class="__root p-20">
+  <div :class="['__root p-20', { 'is-ready': isReady }]">
     <Toolbar class="mb-40" />
     <Transition mode="out-in" name="activity">
       <RouterView :key="$route.fullPath" />
@@ -14,6 +14,16 @@ import Footer from './Footer'
 import Toolbar from './Toolbar'
 
 export default {
-  components: { Footer, Toolbar }
+  components: { Footer, Toolbar },
+  data() {
+    return {
+      isReady: false
+    }
+  },
+  mounted() {
+    setTimeout(() => {
+      this.isReady = true
+    }, 1000)
+  }
 }
 </script>

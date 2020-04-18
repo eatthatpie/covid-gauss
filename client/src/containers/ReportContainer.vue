@@ -25,24 +25,26 @@ export default {
     makeQuery(queryReport, { slug: this.slug })
       .then(res => {
         this.report = res.report
+
+        setTimeout(() => {
+          Promise.all([
+            makeQuery(queryHistoricalReport, { slug: this.slug, date: getRelativeDate(-1) }),
+            makeQuery(queryHistoricalReport, { slug: this.slug, date: getRelativeDate(-7) }),
+            makeQuery(queryHistoricalReport, { slug: this.slug, date: getRelativeDate(-14) })
+          ])
+            .then(res => {
+              this.history = res.map(v => v.report)
+            })
+            .catch(e => {
+              this.history = false
+            })
+        }, 0)
       })
       .catch(e => {
         this.report = false
       })
       .finally(() => {
         this.$emit('done', !!this.report)
-      })
-
-    Promise.all([
-      makeQuery(queryHistoricalReport, { slug: this.slug, date: getRelativeDate(-1) }),
-      makeQuery(queryHistoricalReport, { slug: this.slug, date: getRelativeDate(-7) }),
-      makeQuery(queryHistoricalReport, { slug: this.slug, date: getRelativeDate(-14) })
-    ])
-      .then(res => {
-        this.history = res.map(v => v.report)
-      })
-      .catch(e => {
-        this.history = false
       })
   }
 }
