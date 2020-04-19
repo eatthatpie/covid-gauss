@@ -21,6 +21,18 @@
         </button>
       </div>
     </div>
+    <p class="fs-18 text-center pt-40">
+      Most viewed countries
+    </p>
+    <p class="fs-18 text-center">
+      <RouterLink
+        v-for="item in ignoreCurrentUrl(quickLinks)"
+        :key="item.url"
+        :to="item.url"
+        class="mh-7 color-primary paragraph-inline"
+        v-text="item.label"
+      />
+    </p>
   </CountriesContainer>
 </template>
 
@@ -32,6 +44,96 @@ export default {
   components: { CountriesContainer, Select },
   data() {
     return {
+      quickLinks: [
+        {
+          label: 'US',
+          url: '/country/us'
+        },
+        {
+          label: 'India',
+          url: '/country/india'
+        },
+        {
+          label: 'United Kingdom',
+          url: '/country/united-kingdom'
+        },
+        {
+          label: 'Poland',
+          url: '/country/poland'
+        },
+        {
+          label: 'Kyrgyzstan',
+          url: '/country/kyrgyzstan'
+        },
+        {
+          label: 'Germany',
+          url: '/country/germany'
+        },
+        {
+          label: 'Netherlands',
+          url: '/country/netherlands'
+        },
+        {
+          label: 'France',
+          url: '/country/france'
+        },
+        {
+          label: 'Serbia',
+          url: '/country/serbia'
+        },
+        {
+          label: 'Turkey',
+          url: '/country/turkey'
+        },
+        {
+          label: 'Sweden',
+          url: '/country/sweden'
+        },
+        {
+          label: 'Brazil',
+          url: '/country/brazil'
+        },
+        {
+          label: 'Romania',
+          url: '/country/romania'
+        },
+        {
+          label: 'Ukraine',
+          url: '/country/ukraine'
+        },
+        {
+          label: 'Mexico',
+          url: '/country/mexico'
+        },
+        {
+          label: 'Spain',
+          url: '/country/spain'
+        },
+        {
+          label: 'United Arab Emirates',
+          url: '/country/united-arab-emirates'
+        },
+        {
+          label: 'Danmark',
+          url: '/country/danmark'
+        },
+        {
+          label: 'Norway',
+          url: '/country/norway'
+        },
+        {
+          label: 'Montenegro',
+          url: '/country/montenegro'
+        },
+        {
+          label: 'Italy',
+          url: '/country/italy'
+        },
+        {
+          label: 'Switzerland',
+          url: '/country/switzerland'
+        }
+      ],
       value: ''
     }
   },
@@ -44,6 +146,9 @@ export default {
     }
   },
   methods: {
+    ignoreCurrentUrl(arr) {
+      return arr.filter(item => item.url !== this.$route.fullPath)
+    },
     onSubmit() {
       this.$router.push({ path: '/country/' + this.slug })
     }
