@@ -59,8 +59,8 @@ export default {
         return this.data.max_actual_new_infections_daily
       }
 
-      return this.data.max_actual_new_infections_daily < this.data.estimation.peak_day_new_infected
-        ? this.data.estimation.peak_day_new_infected
+      return this.data.max_actual_new_infections_daily < this.data.estimation.curve_peak_day_new_infected
+        ? this.data.estimation.curve_peak_day_new_infected
         : this.data.max_actual_new_infections_daily
     },
     containerHeightRatio() {

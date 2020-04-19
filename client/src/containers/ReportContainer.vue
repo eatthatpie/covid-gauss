@@ -1,6 +1,6 @@
 <template>
   <div class="__report-container">
-    <slot v-bind="{ report, history }" />
+    <slot v-bind="{ report, history, maxError }" />
   </div>
 </template>
 
@@ -18,6 +18,7 @@ export default {
   data() {
     return {
       history: null,
+      maxError: null,
       report: false
     }
   },
@@ -25,6 +26,7 @@ export default {
     makeQuery(queryReport, { slug: this.slug })
       .then(res => {
         this.report = res.report
+        this.maxError = this.calculateMaxError(this.report.estimation.curve_params)
 
         setTimeout(() => {
           Promise.all([
@@ -46,6 +48,14 @@ export default {
       .finally(() => {
         this.$emit('done', !!this.report)
       })
+  },
+  methods: {
+    calculateMaxError(params) {
+      const m = Math.round(10000 * params[4] / params[1]) / 100
+      const s = Math.round(10000 * params[5] / params[2]) / 100
+
+      return Math.max(Math.abs(m), Math.abs(s))
+    }
   }
 }
 </script>

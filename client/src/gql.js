@@ -1,6 +1,6 @@
 function makeQuery(query, variables) {
   return (
-    fetch('https://datapi.covid-gauss.site/gql/', {
+    fetch('https://datapi.covid-gauss.site/gqltest', {
         method: 'POST',
         body: JSON.stringify({ query, variables }),
         headers: {
@@ -35,6 +35,7 @@ const queryReport = `
         upcomming_infected
         curve_peak_day_date
         curve_peak_day_new_infected
+        curve_params
         total_infected
       }
       daily {

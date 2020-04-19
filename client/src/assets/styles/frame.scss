@@ -7,4 +7,10 @@
   color: #990000;
   background-color: #ffdddd;
   box-sizing: border-box;
+
+  &.warning {
+    border: 1px solid #ff9900;
+    color: #ff9900;
+    background-color: #ffffdd;
+  }
 }

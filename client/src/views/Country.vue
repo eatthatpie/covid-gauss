@@ -8,7 +8,7 @@
       No data for this country.
     </p>
     <ReportContainer
-      v-slot="{ report, history }"
+      v-slot="{ report, history, maxError }"
       :slug="slug"
       class="bg"
       @done="onLoadingDone"
@@ -27,6 +27,18 @@
         class="frame text-center fs-16"
       >
         Due to the structure of actual data for this country we are not able to accurately estimate the timeline.
+      </p>
+      <p
+        v-else-if="maxError > 30"
+        class="frame text-center fs-16"
+      >
+        The approximation error is large. Calculations may be very inaccurate.
+      </p>
+      <p
+        v-else-if="maxError > 15"
+        class="frame warning text-center fs-16"
+      >
+        The approximation error is significant. Calculations may be inaccurate.
       </p>
       <IndicatorWithHistory
         v-if="report.has_valid_estimation"
