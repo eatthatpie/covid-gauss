@@ -114,8 +114,8 @@ export default {
           url: '/country/united-arab-emirates'
         },
         {
-          label: 'Danmark',
-          url: '/country/danmark'
+          label: 'Denmark',
+          url: '/country/denmark'
         },
         {
           label: 'Norway',
